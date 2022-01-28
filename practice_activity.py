@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import filedialog
 from PIL import ImageTk,Image
 import os
+import webbrowser
 root = Tk()
 root.minsize(600,300)
 root.maxsize(800,500)
@@ -21,8 +22,10 @@ my_text= Text(root,height=20,width=70,bg="darkgrey",fg="white")
 my_text.place(relx=0.5,rely=0.7,anchor= CENTER)
 
 name=0
+textfile=""
 def file_open():
     global name
+    global textfile
     my_text.delete(1.0,END)
     input_file_name.delete(0,END)
     textfile=filedialog.askopenfilename(title="Open Html File",filetype=(("Html Files","*.html"),))
@@ -38,13 +41,22 @@ def file_open():
     my_text.insert(END,paragraph)
     read_file.close()
 def file_save():
-    user=0
+    input_name=input_file_name.get()
+    write_file=open(input_name+".html","w")
+    data=my_text.get(1.0,END)
+    print(data)
+    write_file.write(data)
+    print("file updated")
+    my_text.delete(1.0,END)
+    input_file_name.delete(0,END)
+    mbox.showinfo("Update","Success")
 
 def file_play():
-    html_code=0
-    #executed_text=my_text.get()
-    #execution=str(executed_text)
-    #exec(html_code)
+    global name
+    global textfile
+    #webbrowser.open_new("file://"+textfile)
+    executed_text=my_text.get(1.0,END)
+    exec(executed)
 
 open_button=Button(root,image=open_file, command=file_open)
 open_button.place(relx=0.03,rely=0.1,anchor=W)
